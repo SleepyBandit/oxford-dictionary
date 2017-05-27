@@ -1,6 +1,11 @@
 # oxford-dictionary
 A nodeJS wrapper for using the oxforddictionary.com REST API.
 
+# Install:
+```
+    npm install oxford-dictionary
+```
+
 # Setup:
 Require the module then pass in a config object with your APP_ID, APP_KEY, and preferred supported language.
 ```  
