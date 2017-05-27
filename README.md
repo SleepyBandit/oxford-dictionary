@@ -9,7 +9,7 @@ A nodeJS wrapper for using the oxforddictionary.com REST API.
 # Setup:
 Require the module then pass in a config object with your APP_ID, APP_KEY, and preferred supported language.
 ```  
-  var Dictionary = require("oxford-dictionary-api");
+  var Dictionary = require("oxford-dictionary");
   
   var config = {
     app_id : "YOUR_OXFORD_ACCOUNT_APP_ID",
