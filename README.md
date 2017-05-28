@@ -64,6 +64,7 @@ A promise is returned which you can handle as desired.
 ```
 
 # Methods:
+Most, but not all RESTful endpoints for the Oxford Dictionary API have a method associated with it in this NodeJS wrapper. More will be added in the future.
 ## .find
 `.find` retrieves available dictionary entries for a given word and language.
 A region OR filter can optionally be passed in an object with the word.
