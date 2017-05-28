@@ -69,54 +69,54 @@ Most, but not all RESTful endpoints for the Oxford Dictionary API have a method 
 `.find` retrieves available dictionary entries for a given word and language.
 A region OR filter can optionally be passed in an object with the word.
 ```
-  dict.find("awesome");
+  var lookup = dict.find("awesome");
 ```
 ## .definitions
 `.definitions` retrieves available dictionary entries for given word and language and returns the definitions.
 ```
-  dict.definitions("awesome");
+  var lookup = dict.definitions("awesome");
 ```
 ## .inflections
 `.inflections` retrieves available lemmas for a given inflected wordform.
 A filter can optionally be passed in an object with the word.
 ```
-  dict.inflections("awesome");
+  var lookup = dict.inflections("awesome");
 ```
 ## .pronunciations
 `.pronunciations` retrieves available dictionary entries for given word and language and returns the pronunciation.
 ```
-  dict.pronunciations("awesome");
+  var lookup = dict.pronunciations("awesome");
 ```
 ## .examples
 `.examples` retrieves available dictionary entries for given word and language and returns only examples.
 ```
-  dict.examples("awesome");
+  var lookup = dict.examples("awesome");
 ```
 ## .synonyms
 `.synonyms` retrieves available synonyms for a given word and language.
 ```
-  dict.synonyms("awesome");
+  var lookup = dict.synonyms("awesome");
 ```
 ## .antonyms
 `.antonyms` retrieves available antonyms for a given word and language.
 ```
-  dict.antonyms("awesome");
+  var lookup = dict.antonyms("awesome");
 ```
 ## .thesaurus
 `.thesaurus` retrieves available synonyms AND antonyms for a given word and language.
 ```
-  dict.thesaurus("awesome");
+  var lookup = dict.thesaurus("awesome");
 ```
 ## .sentences
 `.sentences` retrieves list of sentences and list of senses (English language only).
 ```
-  dict.sentences("awesome");
+  var lookup = dict.sentences("awesome");
 ```
 ## .translate
 `.translate` retrieves list of sentences and list of senses (English language only).
 You must pass in a word and target language.
 ```
-  dict.translate({
+  var lookup = dict.translate({
     word: "awesome",
     target_language: "es"
   });
