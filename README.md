@@ -1,5 +1,5 @@
 # oxford-dictionary
-A nodeJS wrapper for using the oxforddictionary.com REST API.
+A NodeJS wrapper for using the oxforddictionary.com REST API.
 
 # Install:
 ```
@@ -32,7 +32,7 @@ To use you can pass in a word directly...
       console.log(err);
   });
 ```
-Or, if you want to use filters, regions, or declare a target language for translation, you can use an object with properties. The one required property is word.
+Or, if you want to use filters, regions, or declare a target language for translation, you can use an object with properties. The one required property is word. The RESTful endpoints for the API only allow for a filter OR region OR target_language, not a combination of them.
 
 ```
   var props = {
@@ -64,45 +64,55 @@ A promise is returned which you can handle as desired.
 ```
 
 # Methods:
-.find retrieve available dictionary entries for a given word and language.
+## .find
+`.find` retrieves available dictionary entries for a given word and language.
 A region OR filter can optionally be passed in an object with the word.
 ```
   dict.find("awesome");
 ```
-.definitions finds available dictionary entries for given word and language and returns the definitions.
+## .definitions
+`.definitions` retrieves available dictionary entries for given word and language and returns the definitions.
 ```
   dict.definitions("awesome");
 ```
-.inflections Retrieve available lemmas for a given inflected wordform.
+## .inflections
+`.inflections` retrieves available lemmas for a given inflected wordform.
 A filter can optionally be passed in an object with the word.
 ```
   dict.inflections("awesome");
 ```
-.pronunciations Find available dictionary entries for given word and language and returns the pronunciation.
+## .pronunciations
+`.pronunciations` retrieves available dictionary entries for given word and language and returns the pronunciation.
 ```
   dict.pronunciations("awesome");
 ```
-.examples Find available dictionary entries for given word and language and returns only examples.
+## .examples
+`.examples` retrieves available dictionary entries for given word and language and returns only examples.
 ```
   dict.examples("awesome");
 ```
-.synonyms Retrieve available synonyms for a given word and language.
+## .synonyms
+`.synonyms` retrieves available synonyms for a given word and language.
 ```
   dict.synonyms("awesome");
 ```
-.antonyms Retrieve available antonyms for a given word and language.
+## .antonyms
+`.antonyms` retrieves available antonyms for a given word and language.
 ```
   dict.antonyms("awesome");
 ```
-.thesaurus Retrieve available synonyms AND antonyms for a given word and language.
+## .thesaurus
+`.thesaurus` retrieves available synonyms AND antonyms for a given word and language.
 ```
   dict.thesaurus("awesome");
 ```
-.sentences Retrieve list of sentences and list of senses (English language only).
+## .sentences
+`.sentences` retrieves list of sentences and list of senses (English language only).
 ```
   dict.sentences("awesome");
 ```
-.translate Retrieve list of sentences and list of senses (English language only).
+## .translate
+`.translate` retrieves list of sentences and list of senses (English language only).
 You must pass in a word and target language.
 ```
   dict.translate({
