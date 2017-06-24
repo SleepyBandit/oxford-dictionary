@@ -12,28 +12,28 @@ var OxfordDictionary = function(obj) {
 // GET /entries/{source_lang}/{word_id}/regions={region}
 // GET /entries/{source_lang}/{word_id}/{filters}
 OxfordDictionary.prototype.find = function(props) {
-    var path = validate('/api/v1/entries/', props, this);
+    var path = validate('/api/v1/entries/', props, this, 'entries');
     var options = new OptionObj(path, this.config.app_id, this.config.app_key);
     return buildRequest(options);
 } // .find
 
 // GET /entries/{source_lang}/{word_id}/definitions
 OxfordDictionary.prototype.definitions = function(props) {
-    var path = validate('/api/v1/entries/', props, this) + '/definitions';
+    var path = validate('/api/v1/entries/', props, this, 'definitions');
     var options = new OptionObj(path, this.config.app_id, this.config.app_key);
     return buildRequest(options);
 } // .definitions
 
 // GET /entries/{source_lang}/{word_id}/examples
 OxfordDictionary.prototype.examples = function(props) {
-    var path = validate('/api/v1/entries/', props, this) + '/examples';
+    var path = validate('/api/v1/entries/', props, this, 'examples');
     var options = new OptionObj(path, this.config.app_id, this.config.app_key);
     return buildRequest(options);
 } // .examples
 
 // GET /entries/{source_lang}/{word_id}/pronunciations
 OxfordDictionary.prototype.pronunciations = function(props) {
-    var path = validate('/api/v1/entries/', props, this) + '/pronunciations';
+    var path = validate('/api/v1/entries/', props, this, 'pronunciations');
     var options = new OptionObj(path, this.config.app_id, this.config.app_key);
     return buildRequest(options);
 } // .pronunciations
@@ -41,49 +41,49 @@ OxfordDictionary.prototype.pronunciations = function(props) {
 // GET /inflections/{source_lang}/{word_id}
 // GET /inflections/{source_lang}/{word_id}/{filters}
 OxfordDictionary.prototype.inflections = function(props) {
-    var path = validate('/api/v1/inflections/', props, this);
+    var path = validate('/api/v1/inflections/', props, this, null);
     var options = new OptionObj(path, this.config.app_id, this.config.app_key);
     return buildRequest(options);
 } // .inflections
 
 //GET /entries/{source_lang}/{word_id}/synonyms
 OxfordDictionary.prototype.synonyms = function(props) {
-    var path = validate('/api/v1/entries/', props, this) + '/synonyms';
+    var path = validate('/api/v1/entries/', props, this, 'synonyms');
     var options = new OptionObj(path, this.config.app_id, this.config.app_key);
     return buildRequest(options);
 } // .synonyms
 
 //GET /entries/{source_lang}/{word_id}/antonyms
 OxfordDictionary.prototype.antonyms = function(props) {
-    var path = validate('/api/v1/entries/', props, this) + '/antonyms';
+    var path = validate('/api/v1/entries/', props, this, 'antonyms');
     var options = new OptionObj(path, this.config.app_id, this.config.app_key);
     return buildRequest(options);
 } // .antonyms
 
 // GET /entries/{source_lang}/{word_id}/synonyms;antonyms
 OxfordDictionary.prototype.thesaurus = function(props) {
-    var path = validate('/api/v1/entries/', props, this) + '/synonyms;antonyms';
+    var path = validate('/api/v1/entries/', props, this, 'synonyms;antonyms');
     var options = new OptionObj(path, this.config.app_id, this.config.app_key);
     return buildRequest(options);
 } // .thesaurus
 
 // GET /entries/{source_language}/{word_id}/sentences
 OxfordDictionary.prototype.sentences = function(props) {
-    var path = validate('/api/v1/entries/', props, this) + '/sentences';
+    var path = validate('/api/v1/entries/', props, this, 'sentences');
     var options = new OptionObj(path, this.config.app_id, this.config.app_key);
     return buildRequest(options);
 } // .sentences
 
 // GET entries/{source_translation_language}/{word_id}/translations={target_translation_language}
 OxfordDictionary.prototype.translate = function(props) {
-    var path = validate('/api/v1/entries/', props, this);
+    var path = validate('/api/v1/entries/', props, this, null);
     var options = new OptionObj(path, this.config.app_id, this.config.app_key);
     return buildRequest(options);
 } // .translate
 
 
 // Validation function
-var validate = function(path, props, $this) {
+var validate = function(path, props, $this, dtype) {
         
         if ( !($this.config.app_id) || !($this.config.app_key) ) {
             throw Error('API_ID or API_KEY is undefined or NULL.');
@@ -101,11 +101,23 @@ var validate = function(path, props, $this) {
                 throw Error('Word argument not found');
             }
 
-            if ( props.hasOwnProperty('region') && (typeof props.region === 'string') ) {
-                path += '/regions=' + encodeURIComponent(props.region.toString());    
+            if ( !(dtype === null) && (typeof dtype === 'string') && !(dtype === 'entries') ) {
+                path += '/' + dtype;
             }
-            else if (props.hasOwnProperty('filters') && (props.filters.isArray) ) {
-                path += '/' + encodeURIComponent(props.filters.toString());
+
+            if ( props.hasOwnProperty('region') && (typeof props.region === 'string') ) {
+                if (dtype === 'entries') {
+                    path += '/regions=' + encodeURIComponent(props.region.toString());    
+                } else {
+                    path += ';regions=' + encodeURIComponent(props.region.toString());    
+                }
+            }
+            else if (props.hasOwnProperty('filters') && (typeof props.filters === 'string') ) {
+                if (dtype === 'entries') {
+                    path += '/' + encodeURIComponent(props.filters.toString());
+                } else {
+                    path += ';' + encodeURIComponent(props.filters.toString());
+                }
             } 
             else if (props.hasOwnProperty('target_language') && (typeof props.target_language === 'string') ) {
                 path += '/translations=' + encodeURIComponent(props.target_language.toLowerCase());
@@ -114,6 +126,10 @@ var validate = function(path, props, $this) {
         
         if (typeof props === 'string' && props.length > 0) {
             path += $this.config.source_lang + '/' + props.toLowerCase();
+            
+            if ( dtype != null && typeof dtype === 'string') {
+                path += '/' + dtype;
+            }
         }
 
         return path;
