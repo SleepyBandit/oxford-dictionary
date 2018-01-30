@@ -12,7 +12,7 @@ var OxfordDictionary = function(obj) {
 // GET /entries/{source_lang}/{word_id}/regions={region}
 // GET /entries/{source_lang}/{word_id}/{filters}
 OxfordDictionary.prototype.find = function(props) {
-    var path = validate('/api/v1/entries/', props, this, 'entries');
+    var path = validate('/api/v1/entries/', props, this, null);
     var options = new OptionObj(path, this.config.app_id, this.config.app_key);
     return buildRequest(options);
 } // .find
