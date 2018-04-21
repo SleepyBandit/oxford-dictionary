@@ -2,13 +2,13 @@
 A NodeJS wrapper for using the oxforddictionary.com REST API.
 
 # Install:
-```
+```shell
     npm install oxford-dictionary
 ```
 
 # Setup:
 Require the module then pass in a config object with your APP_ID, APP_KEY, and preferred supported language.
-```  
+```javascript
   var Dictionary = require("oxford-dictionary");
   
   var config = {
@@ -22,7 +22,7 @@ Require the module then pass in a config object with your APP_ID, APP_KEY, and p
 
 # Usage:
 To use you can pass in a word directly...
-```
+```javascript
   var lookup = dict.find("awesome");
 
   lookup.then(function(res) {
@@ -34,7 +34,7 @@ To use you can pass in a word directly...
 ```
 Or, if you want to use filters, regions, or declare a target language for translation, you can use an object with properties. The one required property is word. The RESTful endpoints for the API only allow for a filter OR region OR target_language, not a combination of them.
 
-```
+```javascript
   var props = {
       word: "stupendous",
       // filter: "grammaticalFeatures=singular,past;lexicalCategory=noun",
@@ -52,7 +52,7 @@ Or, if you want to use filters, regions, or declare a target language for transl
   });
 ```
 A promise is returned which you can handle as desired.
-```
+```javascript
   lookup.then(function(res) {
       // res contains the json response
       console.log(res);
@@ -69,54 +69,54 @@ Most, but not all RESTful endpoints for the Oxford Dictionary API have a method 
 ## .find
 `.find` retrieves available dictionary entries for a given word and language.
 A region OR filter can optionally be passed in an object with the word.
-```
+```javascript
   var lookup = dict.find("awesome");
 ```
 ## .definitions
 `.definitions` retrieves available dictionary entries for given word and language and returns the definitions.
-```
+```javascript
   var lookup = dict.definitions("awesome");
 ```
 ## .inflections
 `.inflections` retrieves available lemmas for a given inflected wordform.
 A filter can optionally be passed in an object with the word.
-```
+```javascript
   var lookup = dict.inflections("awesome");
 ```
 ## .pronunciations
 `.pronunciations` retrieves available dictionary entries for given word and language and returns the pronunciation.
-```
+```javascript
   var lookup = dict.pronunciations("awesome");
 ```
 ## .examples
 `.examples` retrieves available dictionary entries for given word and language and returns only examples.
-```
+```javascript
   var lookup = dict.examples("awesome");
 ```
 ## .synonyms
 `.synonyms` retrieves available synonyms for a given word and language.
-```
+```javascript
   var lookup = dict.synonyms("awesome");
 ```
 ## .antonyms
 `.antonyms` retrieves available antonyms for a given word and language.
-```
+```javascript
   var lookup = dict.antonyms("awesome");
 ```
 ## .thesaurus
 `.thesaurus` retrieves available synonyms AND antonyms for a given word and language.
-```
+```javascript
   var lookup = dict.thesaurus("awesome");
 ```
 ## .sentences
 `.sentences` retrieves list of sentences and list of senses (English language only).
-```
+```javascript
   var lookup = dict.sentences("awesome");
 ```
 ## .translate
 `.translate` retrieves list of sentences and list of senses (English language only).
 You must pass in a word and target language.
-```
+```javascript
   var lookup = dict.translate({
     word: "awesome",
     target_language: "es"
@@ -125,7 +125,7 @@ You must pass in a word and target language.
 
 # Response:
 Response is a json object from which you can access the required details such as definition, type, audio files, example statements.
-```
+```javascript
   {
   "metadata": {
     "provider": "Oxford University Press"
