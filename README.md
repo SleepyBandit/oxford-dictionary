@@ -26,7 +26,8 @@ To use you can pass in a word directly...
   var lookup = dict.find("awesome");
 
   lookup.then(function(res) {
-      console.log(res);
+      // stringify JSON object to see full structure in console log
+      console.log(JSON.stringify(res, null, 4));
   },
   function(err) {
       console.log(err);
@@ -45,7 +46,7 @@ Or, if you want to use filters, regions, or declare a target language for transl
   var lookup = dict.find(props);
 
   lookup.then(function(res) {
-      console.log(res);
+      console.log(JSON.stringify(res, null, 4));
   },
   function(err) {
       console.log(err);
@@ -55,7 +56,7 @@ A promise is returned which you can handle as desired.
 ```javascript
   lookup.then(function(res) {
       // res contains the json response
-      console.log(res);
+      console.log(JSON.stringify(res, null, 4));
   },
   function(err) {
       // err contains any failed responses to handle as desired
