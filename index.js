@@ -106,7 +106,7 @@ var validate = function(path, props, $this, dtype) {
             }
 
             if ( props.hasOwnProperty('region') && (typeof props.region === 'string') ) {
-                if (dtype === 'entries') {
+                if (dtype === 'entries' || dtype === null) {
                     path += '/regions=' + encodeURIComponent(props.region.toString());    
                 } else {
                     path += ';regions=' + encodeURIComponent(props.region.toString());    
