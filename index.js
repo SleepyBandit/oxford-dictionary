@@ -12,28 +12,28 @@ var OxfordDictionary = function (obj) {
 // GET /entries/{source_lang}/{word_id}?fields={filters}
 //     filters should be comma-separated string (e.g. "filter1,filter2,filter3")
 OxfordDictionary.prototype.find = function (props) {
-    var path = validate('/api/v2/entries/', props, this, null);
+    var path = validate('entries', props, this, null);
     var options = new OptionObj(path, this.config.app_id, this.config.app_key);
     return buildRequest(options);
 } // .find
 
 // GET /entries/{source_lang}/{word_id}?fields=definitions
 OxfordDictionary.prototype.definitions = function (props) {
-    var path = validate('/api/v2/entries/', props, this, 'definitions');
+    var path = validate('entries', props, this, 'definitions');
     var options = new OptionObj(path, this.config.app_id, this.config.app_key);
     return buildRequest(options);
 } // .definitions
 
 // GET /entries/{source_lang}/{word_id}?fields=examples
 OxfordDictionary.prototype.examples = function (props) {
-    var path = validate('/api/v2/entries/', props, this, 'examples');
+    var path = validate('entries', props, this, 'examples');
     var options = new OptionObj(path, this.config.app_id, this.config.app_key);
     return buildRequest(options);
 } // .examples
 
 // GET /entries/{source_lang}/{word_id}?fields=pronunciations
 OxfordDictionary.prototype.pronunciations = function (props) {
-    var path = validate('/api/v2/entries/', props, this, 'pronunciations');
+    var path = validate('entries', props, this, 'pronunciations');
     var options = new OptionObj(path, this.config.app_id, this.config.app_key);
     return buildRequest(options);
 } // .pronunciations
@@ -41,49 +41,51 @@ OxfordDictionary.prototype.pronunciations = function (props) {
 // GET /lemmas/{source_lang}/{word_id}
 // GET /lemmas/{source_lang}/{word_id}?{filters}
 OxfordDictionary.prototype.inflections = function (props) {
-    var path = validate('/api/v2/lemmas/', props, this, null);
+    var path = validate('lemmas', props, this, null);
     var options = new OptionObj(path, this.config.app_id, this.config.app_key);
     return buildRequest(options);
 } // .inflections
 
 //GET /thesaurus/{source_lang}/{word_id}?fields=synonyms
 OxfordDictionary.prototype.synonyms = function (props) {
-    var path = validate('/api/v2/thesaurus/', props, this, 'synonyms');
+    var path = validate('thesaurus', props, this, 'synonyms');
     var options = new OptionObj(path, this.config.app_id, this.config.app_key);
     return buildRequest(options);
 } // .synonyms
 
 //GET /thesaurus/{source_lang}/{word_id}?fields=synonyms
 OxfordDictionary.prototype.antonyms = function (props) {
-    var path = validate('/api/v2/thesaurus/', props, this, 'antonyms');
+    var path = validate('thesaurus', props, this, 'antonyms');
     var options = new OptionObj(path, this.config.app_id, this.config.app_key);
     return buildRequest(options);
 } // .antonyms
 
 //GET /thesaurus/{source_lang}/{word_id}
 OxfordDictionary.prototype.thesaurus = function (props) {
-    var path = validate('/api/v2/thesaurus/', props, this, null);
+    var path = validate('thesaurus', props, this, null);
     var options = new OptionObj(path, this.config.app_id, this.config.app_key);
     return buildRequest(options);
 } // .thesaurus
 
 // GET /sentences/{source_language}/{word_id}
 OxfordDictionary.prototype.sentences = function (props) {
-    var path = validate('/api/v2/sentences/', props, this, null);
+    var path = validate('sentences', props, this, null);
     var options = new OptionObj(path, this.config.app_id, this.config.app_key);
     return buildRequest(options);
 } // .sentences
 
 // GET translations/{source_translation_language}/{target_translation_language}/{word_id}
 OxfordDictionary.prototype.translate = function (props) {
-    var path = validate('/api/v2/translations/', props, this, null);
+    var path = validate('translations', props, this, null);
     var options = new OptionObj(path, this.config.app_id, this.config.app_key);
     return buildRequest(options);
 } // .translate
 
 
 // Validation function
-var validate = function (path, props, $this, dtype) {
+var validate = function (endpoint, props, $this, dtype) {
+    let path = `/api/v2/${endpoint}`;
+
     if (typeof props === 'string') {
         props = { word: props.toLowerCase() };
     }
@@ -97,14 +99,16 @@ var validate = function (path, props, $this, dtype) {
     }
 
     if (typeof props != 'undefined' && typeof props === 'object') {
-
+        if (!props.hasOwnProperty('word')) {
+            throw Error('A word must be passed as a prop.');
+        }
         // translate endpoint
-        if (props.hasOwnProperty('target_language') && (typeof props.target_language === 'string')) {
+        if (endpoint === 'translations' && props.hasOwnProperty('target_language') && (typeof props.target_language === 'string')) {
             path += `/${encodeURIComponent(props.target_language.toLowerCase())}`;
         }
 
         if (props.hasOwnProperty('word') && (typeof props.word === 'string')) {
-            path += $this.config.source_lang + '/' + props.word.toLowerCase();
+            path += `/${$this.config.source_lang}/${props.word.toLowerCase()}`;
         } else {
             throw Error('Word argument not found');
         }
@@ -113,17 +117,17 @@ var validate = function (path, props, $this, dtype) {
 
         if (!(dtype === null) && (typeof dtype === 'string') && !(dtype === 'entries')) {
             if (fields == null) {
-                fields = `?fields=${dtype}`;
+                fields = `?fields=${encodeURIComponent(dtype)}`;
             } else {
-                fields += `,${dtype}`;
+                fields += `,${encodeURIComponent(dtype)}`;
             }
         }
 
         if (props.hasOwnProperty('filters') && (typeof props.filters === 'string')) {
             if (fields == null) {
-                fields = `?fields=${encodeURIComponent(props.filters.toString())}`;
+                fields = `?fields=${encodeURIComponent(props.filters)}`;
             } else {
-                fields += `,${encodeURIComponent(props.filters.toString())}`;
+                fields += `,${encodeURIComponent(props.filters)}`;
             }
         }
         if (fields) {
