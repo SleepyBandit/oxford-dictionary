@@ -1,5 +1,6 @@
 # oxford-dictionary
-A NodeJS wrapper for using the oxforddictionary.com REST API.
+A NodeJS wrapper for using the oxforddictionary.com V2 REST API.
+Special thanks to ajivoin for making the updates to V2!
 
 # Install:
 ```shell
