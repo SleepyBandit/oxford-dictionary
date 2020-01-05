@@ -15,7 +15,7 @@ Require the module then pass in a config object with your APP_ID, APP_KEY, and p
   var config = {
     app_id : "YOUR_OXFORD_ACCOUNT_APP_ID",
     app_key : "YOUR_OXFORD_ACCOUNT_APP_KEY",
-    source_lang : "en"
+    source_lang : "en-us"
   };
   
   var dict = new Dictionary(config);

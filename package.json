@@ -1,6 +1,6 @@
 {
   "name": "oxford-dictionary",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "A nodeJS wrapper for using the oxforddictionary.com REST API.",
   "main": "index.js",
   "scripts": {
