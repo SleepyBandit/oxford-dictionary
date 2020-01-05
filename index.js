@@ -144,6 +144,25 @@ var buildRequest = function (options) {
             if (res.statusCode == 404) {
                 return reject("No such entry found.");
             }
+            if (res.statusCode == 403) {
+                return reject("Authentication failed. Remember V2 is not accessible with FREE tier.");
+            }
+            if (res.statusCode == 414) {
+                return reject("URI too long. Your word_id exceeds the maximum 128 characters.");
+            }
+            if (res.statusCode == 500) {
+                return reject("Internal Server Error. Contact the Oxford Dictionary API team");
+            }
+            if (res.statusCode == 502) {
+                return reject("Bad Gateway. Oxford Dictionaries API is down or being upgraded.");
+            }
+            if (res.statusCode == 503) {
+                return reject("Service Unavailable. The Oxford Dictionaries API servers are up, but overloaded with requests. Please try again later.");
+            }
+            if (res.statusCode == 504) {
+                return reject("Gateway timeout. The Oxford Dictionaries API servers are up, but the request couldn’t be serviced due to some failure within our stack. Please try again later.");
+            }
+
             var data = "";
 
             res.on('data', function (chunk) {
@@ -156,8 +175,8 @@ var buildRequest = function (options) {
                     result = JSON.parse(data);
                 } catch (exp) {
                     result = {
-                        'status_code': 500,
-                        'status_text': 'JSON Parse Failed'
+                        'status_code': 418,
+                        'status_text': 'JSON Parse Failed. Unable to parse response.'
                     };
                     reject(result);
                 }
