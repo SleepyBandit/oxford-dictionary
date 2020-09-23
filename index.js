@@ -104,12 +104,16 @@ var validate = function (endpoint, props, $this, dtype) {
         }
         // translate endpoint
         if (endpoint === 'translations' && props.hasOwnProperty('target_language') && (typeof props.target_language === 'string')) {
-            path += `/${encodeURIComponent(props.target_language.toLowerCase())}`;
+            path += `/${encodeURIComponent(props.source_language.toLowerCase())}/${encodeURIComponent(props.target_language.toLowerCase())}`;
         }
 
-        if (props.hasOwnProperty('word') && (typeof props.word === 'string')) {
+        if (endpoint === 'translations' && props.hasOwnProperty('word')) {
+            path += `/${props.word.toLowerCase()}?strictMatch=false`;
+        }
+
+        if (endpoint !== 'translations' && props.hasOwnProperty('word') && (typeof props.word === 'string')) {
             path += `/${$this.config.source_lang}/${props.word.toLowerCase()}`;
-        } else {
+        } else if (endpoint !== 'translations' && !props.hasOwnProperty('word')) {
             throw Error('Word argument not found');
         }
         
