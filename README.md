@@ -1,3 +1,5 @@
+# **THIS REPOSITORY IS NO LONGER MAINTAINED AND MAY NOT WORK WITH THE LATEST OXFORD DICTIONARY API**
+
 # oxford-dictionary
 A NodeJS wrapper for using the oxforddictionary.com V2 REST API.
 Special thanks to ajivoin for making the updates to V2!
